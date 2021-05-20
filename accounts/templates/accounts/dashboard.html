@@ -16,7 +16,15 @@
 				<tr>
 					<th></th>
 					<th>Customer</th>
-					<th>Orders</th>
+					<th>Phone</th>
+
+					{% for customer in customers%}
+						<tr>
+							<td></td>
+							<td><a href="{% url 'customer' customer.id %}">{{customer.name}}</a></td>
+							<td>{{customer.phone}}</td>
+						</tr>
+					{% endfor %}
 				</tr>
 
 			</table>
@@ -36,7 +44,16 @@
 					<th>Update</th>
 					<th>Remove</th>
 				</tr>
-		
+				
+				{% for order in orders %}
+					<tr>
+						<td>{{order.product}}</td>
+						<td>{{order.date_ordered}}</td>
+						<td>{{order.status}}</td>
+						<td><a href="#">Update</a></td>
+						<td><a href="#">Remove</a></td>
+					</tr>
+				{% endfor %}
 			</table>
 		</div>
 	</div>

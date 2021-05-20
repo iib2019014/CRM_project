@@ -13,5 +13,5 @@ urlpatterns = [
     path('dashboard/', dashboardView, name='dashboard'),
     path('products/', productsView, name='products'),
     path('status/', statusView, name='status'),
-    path('customer/', customerView, name='customer'),
+    path('customer/<str:pk_cust_id>/', customerView, name='customer'),
 ]

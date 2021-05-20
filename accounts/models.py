@@ -17,7 +17,7 @@ CATEGORY = (
 class Customer(models.Model) :
     name = models.CharField(max_length=25, null=True)
     phone = models.CharField(max_length=10, null=True)
-    eamil = models.CharField(max_length=25, null=True)
+    email = models.CharField(max_length=25, null=True)
 
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -50,6 +50,7 @@ class Order(models.Model) :
     product = models.ForeignKey(Product, null=True, on_delete=SET_NULL)
     # product = models.ManyToOneRel()
     status = models.CharField(max_length=25, null=True, choices=STATUS)
+    date_ordered = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self) :
         return "order [" + self.order_id + "]"
