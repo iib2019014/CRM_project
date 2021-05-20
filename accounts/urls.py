@@ -5,13 +5,17 @@ from .views import(
     productsView,
     statusView,
     customerView,
+    createOrderView,
 )
 
 urlpatterns = [
     # path('admin/', admin,site.urls),
+
     path('', homePageView, name='home'),
     path('dashboard/', dashboardView, name='dashboard'),
     path('products/', productsView, name='products'),
     path('status/', statusView, name='status'),
     path('customer/<str:pk_cust_id>/', customerView, name='customer'),
+
+    path('createOrder/', createOrderView, name='createOrder'),
 ]

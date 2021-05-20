@@ -8,6 +8,10 @@ from .models import(
     Order,
 )
 
+from .forms import(
+    CreateOrderForm,
+)
+
 # Create your views here.
 # def homePageView(request) :
 #     return HttpResponse("<h1>This is the home page</h1>")
@@ -59,3 +63,9 @@ def customerView(request, pk_cust_id) :
 def statusView(request) :
     context = {}
     return render(request, 'accounts\status.html', context)
+
+def createOrderView(request) :
+    context = {}
+    createOrderForm = CreateOrderForm()
+    context['createOrderForm'] = createOrderForm
+    return render(request, 'accounts/form_templates/createOrder_form.html', context)
