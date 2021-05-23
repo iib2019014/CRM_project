@@ -11,6 +11,7 @@ from .models import(
 from .forms import(
     OrderForm,
     CustomerForm,
+    ProductForm,
 )
 
 # Create your views here.
@@ -46,6 +47,21 @@ def productsView(request) :
     products = Product.objects.all()
     context['products'] = products
     return render(request, 'accounts\products.html', context)
+
+def createProductView(request) :
+    context = {}
+    createProductForm = ProductForm()
+
+    if request.method == 'POST' :
+        createProductForm = ProductForm(request.POST)
+        if createProductForm.is_valid() :
+            createProductForm.save()
+            return redirect('products')
+        else :
+            print("not valid")
+
+    context['createProductForm'] = createProductForm
+    return render(request, 'accounts/form_templates/create_product.html', context)
 
 def customerView(request, pk_cust_id) :
     context = {}
