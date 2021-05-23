@@ -3,9 +3,14 @@
 {% load static%}
 
 {% block content %}
-
+    
+    <h3>Orders for {{createOrderFormSet.instance}} : </h3>
     <form action="" method="post">{% csrf_token %}
-        {{createOrderForm}}
+        {{createOrderFormSet.management_form}}
+        {% for form in createOrderFormSet %}
+            {{form}}
+            <br>
+        {% endfor %}
         <input type="submit" name="submit">
     </form>
 

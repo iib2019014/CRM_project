@@ -10,6 +10,7 @@ from .views import(
     createCustomerView,
     removeCustomerView,
     createProductView,
+    removeProductView,
 )
 
 urlpatterns = [
@@ -27,4 +28,5 @@ urlpatterns = [
     path('createProduct/', createProductView, name='createProduct'),
     path('updateCustomer/<str:pk_cust_id>/', updateCustomerView, name='updateCustomer'),
     path('removeCustomer/<str:pk_cust_id>/', removeCustomerView, name='removeCustomer'),
+    path('removeProduct/<str:pk_product_id>/', removeProductView, name='removeProduct'),
 ]

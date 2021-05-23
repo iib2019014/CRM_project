@@ -14,6 +14,8 @@ from .forms import(
     ProductForm,
 )
 
+from django.forms import inlineformset_factory
+
 # Create your views here.
 # def homePageView(request) :
 #     return HttpResponse("<h1>This is the home page</h1>")
@@ -29,7 +31,7 @@ def dashboardView(request) :
     context['customers'] = customers
 
     orders = Order.objects.all()
-    last_5_orders = Order.objects.all().order_by('-date_ordered')[:5]
+    last_5_orders = orders.order_by('-date_ordered')[:5]
     context['last_5_orders'] = last_5_orders
 
     total_orders = orders.count()
@@ -97,19 +99,36 @@ def statusView(request) :
     return render(request, 'accounts/status.html', context)
 
 def createOrderView(request, pk_cust_id) :
+    Customer_Order_FormSet = inlineformset_factory(
+        Customer,   # the parent model
+        Order,   # the child model
+        fields=(
+            'product',
+            'status'
+        )   # the child fields need to be in form
+    )
     customer = Customer.objects.get(id=pk_cust_id)
     context = {}
-    createOrderForm = OrderForm(
-        initial={
-            'customer': customer,
-        }
-    )
+    # createOrderForm = OrderForm(
+    #     initial={
+    #         'customer': customer,
+    #     }
+    # )
+    createOrderFormSet = Customer_Order_FormSet(instance=customer)
+    print(createOrderFormSet.instance)
 
     if request.method == 'POST' :
-        createOrderForm = OrderForm(request.POST)
-        createOrderForm.save()
-        return redirect('dashboard')
-    context['createOrderForm'] = createOrderForm
+        print("into post")
+        createOrderFormSet = Customer_Order_FormSet(request.POST, instance=customer)
+        if createOrderFormSet.is_valid() :
+            print("valid")
+            createOrderFormSet.save()
+            print(createOrderFormSet)
+            return redirect('dashboard')
+        else :
+            print("not valid")
+            createOrderFormSet = Customer_Order_FormSet(instance=customer)
+    context['createOrderFormSet'] = createOrderFormSet
     return render(request, 'accounts/form_templates/createOrder_form.html', context)
 
 def createCustomerView(request) :
@@ -145,3 +164,13 @@ def removeCustomerView(request, pk_cust_id) :
         return redirect('dashboard')
     context['customer'] = customer
     return render(request, 'accounts/form_templates/remove_customer.html', context)
+
+def removeProductView(request, pk_product_id) :
+    product = Product.objects.get(id=pk_product_id)
+    context = {}
+    context['product'] = product
+
+    if request.method == 'POST' :
+        product.delete()
+        return redirect('products')
+    return render(request, 'accounts/form_templates/remove_product.html', context)
