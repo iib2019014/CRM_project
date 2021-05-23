@@ -105,7 +105,8 @@ def createOrderView(request, pk_cust_id) :
         fields=(
             'product',
             'status'
-        )   # the child fields need to be in form
+        ),   # the child fields need to be in form
+        extra=5    # no. of additional empty forms to be displayed,
     )
     customer = Customer.objects.get(id=pk_cust_id)
     context = {}
@@ -114,7 +115,7 @@ def createOrderView(request, pk_cust_id) :
     #         'customer': customer,
     #     }
     # )
-    createOrderFormSet = Customer_Order_FormSet(instance=customer)
+    createOrderFormSet = Customer_Order_FormSet(instance=customer, queryset=Order.objects.none())
     print(createOrderFormSet.instance)
 
     if request.method == 'POST' :
