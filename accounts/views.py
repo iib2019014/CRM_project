@@ -29,7 +29,8 @@ def dashboardView(request) :
     context['customers'] = customers
 
     orders = Order.objects.all()
-    context['orders'] = orders
+    last_5_orders = Order.objects.all().order_by('-date_ordered')[:5]
+    context['last_5_orders'] = last_5_orders
 
     total_orders = orders.count()
     context['total_orders'] = total_orders
