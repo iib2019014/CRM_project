@@ -64,10 +64,10 @@ def customerView(request, pk_cust_id) :
 def updateCustomerView(request, pk_cust_id) :
     customer = Customer.objects.get(id=pk_cust_id)
     context = {}
-    updateCustomerForm = UpdateCustomerForm(instance=customer)
+    updateCustomerForm = CustomerForm(instance=customer)
 
     if request.method == 'POST' :
-        updateCustomerForm = UpdateCustomerForm(request.POST, instance=customer)
+        updateCustomerForm = CustomerForm(request.POST, instance=customer)
         if updateCustomerForm.is_valid() :
             updateCustomerForm.save()
             return redirect('customer/pk_cust_id')
@@ -79,9 +79,14 @@ def statusView(request) :
     context = {}
     return render(request, 'accounts/status.html', context)
 
-def createOrderView(request) :
+def createOrderView(request, pk_cust_id) :
+    customer = Customer.objects.get(id=pk_cust_id)
     context = {}
-    createOrderForm = OrderForm()
+    createOrderForm = OrderForm(
+        initial={
+            'customer': customer,
+        }
+    )
 
     if request.method == 'POST' :
         createOrderForm = OrderForm(request.POST)
@@ -92,15 +97,15 @@ def createOrderView(request) :
 
 def createCustomerView(request) :
     context = {}
-    updateCustomerForm = CustomerForm()
+    createCustomerForm = CustomerForm()
     print("into view")
 
     if request.method == 'POST' :
-        updateCustomerForm = CustomerForm(request.POST)
+        createCustomerForm = CustomerForm(request.POST)
         print("into post")
-        if updateCustomerForm.is_valid() :
+        if createCustomerForm.is_valid() :
             print("valid")
-            # updateCustomerForm.save()
+            # createCustomerForm.save()
             Customer.objects.create(
                 name = request.POST.get('name'),
                 phone = request.POST.get('phone'),
@@ -109,7 +114,17 @@ def createCustomerView(request) :
             return redirect('dashboard')
         else :
             print("not valid")
-            # print(updateCustomerForm.errors)
+            # print(createCustomerForm.errors)
     print("into get")
-    context['updateCustomerForm'] = updateCustomerForm
+    context['createCustomerForm'] = createCustomerForm
     return render(request, 'accounts/form_templates/create_customer.html', context)
+
+def removeCustomerView(request, pk_cust_id) :
+    customer = Customer.objects.get(id=pk_cust_id)
+    context = {}
+
+    if request.method == 'POST' :
+        customer.delete()
+        return redirect('dashboard')
+    context['customer'] = customer
+    return render(request, 'accounts/form_templates/remove_customer.html', context)

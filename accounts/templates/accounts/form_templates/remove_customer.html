@@ -1,0 +1,9 @@
+{%  extends 'accounts/main_template.html' %}
+
+{% block content %}
+    <form action="" method="post">{% csrf_token %}
+        <p>Are you sure you want to remove {{customer}} from the database?</p>
+        <a href="{% url 'customer' customer.id %}">Cancel</a>
+        <input type="submit" value="Remove">
+    </form>
+{% endblock %}
