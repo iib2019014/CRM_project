@@ -1,0 +1,7 @@
+{% block content %}
+    <form action="" method="post">{% csrf_token %}
+        {{updateCustomerForm}}
+
+        <input type="submit" value="SAVE">
+    </form>
+{% endblock %}

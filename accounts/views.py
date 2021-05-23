@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django.http import HttpResponse
 
@@ -9,7 +9,8 @@ from .models import(
 )
 
 from .forms import(
-    CreateOrderForm,
+    OrderForm,
+    CustomerForm,
 )
 
 # Create your views here.
@@ -60,12 +61,55 @@ def customerView(request, pk_cust_id) :
 
     return render(request, 'accounts\customer.html', context)
 
+def updateCustomerView(request, pk_cust_id) :
+    customer = Customer.objects.get(id=pk_cust_id)
+    context = {}
+    updateCustomerForm = UpdateCustomerForm(instance=customer)
+
+    if request.method == 'POST' :
+        updateCustomerForm = UpdateCustomerForm(request.POST, instance=customer)
+        if updateCustomerForm.is_valid() :
+            updateCustomerForm.save()
+            return redirect('customer/pk_cust_id')
+
+    context['updateCustomerForm'] = updateCustomerForm
+    return render(request, 'accounts/form_templates/update_customer.html', context)
+
 def statusView(request) :
     context = {}
-    return render(request, 'accounts\status.html', context)
+    return render(request, 'accounts/status.html', context)
 
 def createOrderView(request) :
     context = {}
-    createOrderForm = CreateOrderForm()
+    createOrderForm = OrderForm()
+
+    if request.method == 'POST' :
+        createOrderForm = OrderForm(request.POST)
+        createOrderForm.save()
+        return redirect('dashboard')
     context['createOrderForm'] = createOrderForm
     return render(request, 'accounts/form_templates/createOrder_form.html', context)
+
+def createCustomerView(request) :
+    context = {}
+    updateCustomerForm = CustomerForm()
+    print("into view")
+
+    if request.method == 'POST' :
+        updateCustomerForm = CustomerForm(request.POST)
+        print("into post")
+        if updateCustomerForm.is_valid() :
+            print("valid")
+            # updateCustomerForm.save()
+            Customer.objects.create(
+                name = request.POST.get('name'),
+                phone = request.POST.get('phone'),
+                email = request.POST.get('email'),
+            )
+            return redirect('dashboard')
+        else :
+            print("not valid")
+            # print(updateCustomerForm.errors)
+    print("into get")
+    context['updateCustomerForm'] = updateCustomerForm
+    return render(request, 'accounts/form_templates/create_customer.html', context)

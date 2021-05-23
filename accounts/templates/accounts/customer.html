@@ -9,8 +9,7 @@
 		<div class="card card-body">
 			<h5>Customer:</h5>
 			<hr>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="">Update Customer</a>
-			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Customer</a>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'updateCustomer' the_customer.id %}">Update Customer</a>
 
 		</div>
 	</div>
@@ -20,6 +19,7 @@
 			<h5>Contact Information</h5>
 			<hr>
 			<p>Email: {{the_customer.email}}</p>
+			<p>Name: {{the_customer.name}}</p>
 			<p>Phone: {{the_customer.phone}}</p> </p>
 		</div>
 	</div>

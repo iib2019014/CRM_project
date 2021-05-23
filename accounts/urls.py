@@ -6,6 +6,8 @@ from .views import(
     statusView,
     customerView,
     createOrderView,
+    updateCustomerView,
+    createCustomerView,
 )
 
 urlpatterns = [
@@ -18,4 +20,6 @@ urlpatterns = [
     path('customer/<str:pk_cust_id>/', customerView, name='customer'),
 
     path('createOrder/', createOrderView, name='createOrder'),
+    path('createCustomer/', createCustomerView, name='createCustomer'),
+    path('updateCustomer/<str:pk_cust_id>/', updateCustomerView, name='updateCustomer'),
 ]
