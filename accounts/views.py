@@ -16,6 +16,10 @@ from .forms import(
 
 from django.forms import inlineformset_factory
 
+from .filters import (
+    OrderFilter,
+)
+
 # Create your views here.
 # def homePageView(request) :
 #     return HttpResponse("<h1>This is the home page</h1>")
@@ -71,12 +75,17 @@ def customerView(request, pk_cust_id) :
     the_customer = Customer.objects.get(id=pk_cust_id)
     context['the_customer'] = the_customer
 
-    # their_orders = Order.objects.filter(customer=the_customer)
-    their_orders = the_customer.order_set.all()
-    context['their_orders'] = their_orders
+    # their_orders_or_filtered = Order.objects.filter(customer=the_customer)
+    their_orders_or_filtered = the_customer.order_set.all()
+    context['their_orders_or_filtered'] = their_orders_or_filtered
     
-    total_orders = their_orders.count()
+    total_orders = their_orders_or_filtered.count()
     context['total_orders'] = total_orders
+
+    customerOrderFilter = OrderFilter(request.GET, queryset=their_orders_or_filtered)
+    context['customerOrderFilter'] = customerOrderFilter
+    their_orders_or_filtered = customerOrderFilter.qs
+    context['their_orders_or_filtered'] = their_orders_or_filtered
 
     return render(request, 'accounts\customer.html', context)
 
