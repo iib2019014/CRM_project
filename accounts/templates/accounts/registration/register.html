@@ -1,0 +1,9 @@
+{%  extends 'accounts/main_template.html' %}
+
+{% block content %}
+    <form action="" method="post">{% csrf_token %}
+        <p>{{register_form.as_p}}</p>
+
+        <input type="submit" value="SIGN UP">
+    </form>
+{% endblock %}

@@ -12,6 +12,7 @@ from .forms import(
     OrderForm,
     CustomerForm,
     ProductForm,
+    UserCreationForm,
 )
 
 from django.forms import inlineformset_factory
@@ -28,6 +29,24 @@ from .filters import (
 def homePageView(request) :
     context = {}
     return render(request, 'accounts\home_page.html', context)
+
+def registerView(request) :
+    register_form = UserCreationForm()
+    context = {}
+
+    if request.method == 'POST' :
+        print("into post")
+        register_form = UserCreationForm(request.POST)
+        if register_form.is_valid() :
+            print("valid")
+            register_form.save()
+            return redirect('home')
+        else :
+            print("not valid")
+    else :
+        print("into get")
+    context['register_form'] = register_form
+    return render(request, 'accounts/registration/register.html', context)
 
 def dashboardView(request) :
     context = {}
