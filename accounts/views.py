@@ -18,6 +18,7 @@ from django.forms import inlineformset_factory
 
 from .filters import (
     OrderFilter,
+    ProductFilter,
 )
 
 # Create your views here.
@@ -52,7 +53,10 @@ def dashboardView(request) :
 def productsView(request) :
     context = {}
     products = Product.objects.all()
+    productFilter = ProductFilter(request.GET, queryset=products)
+    products = productFilter.qs
     context['products'] = products
+    context['productFilter'] = productFilter
     return render(request, 'accounts\products.html', context)
 
 def createProductView(request) :

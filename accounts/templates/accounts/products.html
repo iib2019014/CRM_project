@@ -2,34 +2,46 @@
 
 {% block content %}
 
-		<br>
-		<a class="btn btn-primary  btn-sm btn-block" href="{% url 'createProduct' %}">Create Product</a>
-		<div class="row">
-			<div class="col-md">
-				<div class="card card-body">
-					<h5>Products</h5>
-				</div>
-				<div class="card card-body">
-					<table class="table">
-						<tr>
-							<th>Product</th>
-							<th>Category</th>
-							<th>Price</th>
-							<th></th>
-						</tr>
-						
-						{% for product in products %}
-							<tr>
-								<td>{{product.name}}</td>
-								<td>{{product.category}}</td>
-								<td>{{product.price}}</td>
-								<td><a class="btn btn-sm btn-danger" href="{% url 'removeProduct' product.id %}">remove</a></td>
-							</tr>
-						{% endfor %}
-					</table>
-				</div>
+	<br>
+	<div class="row">
+		<div class="col">
+			<div class="card card-body">
+				<form method="get">
+					{{productFilter.form}}
+				<button class="btn btn-primary" type="submit">Search</button>
+			</form>
 			</div>
-			
 		</div>
+	</div>
+	<br>
+	<a class="btn btn-primary  btn-sm btn-block" href="{% url 'createProduct' %}">Create Product</a>
+	<div class="row">
+		<div class="col-md">
+			<div class="card card-body">
+				<h5>Products</h5>
+			</div>
+			<div class="card card-body">
+				<table class="table">
+					<tr>
+						<th>Product</th>
+						<th>Description</th>
+						<th>Category</th>
+						<th>Price</th>
+						<th></th>
+					</tr>
+					
+					{% for product in products %}
+						<tr>
+							<td>{{product.name}}</td>
+							<td>{{product.description}}</td>
+							<td>{{product.category}}</td>
+							<td>{{product.price}}</td>
+							<td><a class="btn btn-sm btn-danger" href="{% url 'removeProduct' product.id %}">remove</a></td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
 
 {% endblock content %}
