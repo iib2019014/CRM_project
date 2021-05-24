@@ -1,6 +1,7 @@
 from django_filters import (
     FilterSet,
     DateFilter,
+    CharFilter,
 )
 
 from .models import (
@@ -55,6 +56,10 @@ class OrderFilter(FilterSet) :
 
     
 class ProductFilter(FilterSet) :
+    start_date = DateFilter(field_name='date_created', lookup_expr='gte')
+    end_date = DateFilter(field_name='date_created', lookup_expr='lte')
+    description = CharFilter(field_name='description', lookup_expr='contains')
     class Meta :
         model = Product
         fields = '__all__'
+        exclude = ['date_created',]

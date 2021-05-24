@@ -7,7 +7,10 @@
 		<div class="col">
 			<div class="card card-body">
 				<form method="get">
-					{{productFilter.form}}
+					{% for field in productFilter.form %}
+						{{field.label_tag}}	{{field}}
+						<br>
+					{%  endfor %}
 				<button class="btn btn-primary" type="submit">Search</button>
 			</form>
 			</div>
