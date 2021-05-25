@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect
 
-from django.http import HttpResponse
-
 from .models import(
     Product,
     Customer,
@@ -36,13 +34,14 @@ from django.contrib.auth.decorators import login_required
 
 from .decorators import (
     authentication_required,
+    user_allowed,
+    admin_only,
 )
 
 # Create your views here.
-# def homePageView(request) :
-#     return HttpResponse("<h1>This is the home page</h1>")
 
 @login_required(login_url='login')
+@admin_only
 def homePageView(request) :
     context = {}
     return render(request, 'accounts\home_page.html', context)
@@ -99,6 +98,7 @@ def logoutView(request) :
     return redirect('login')
 
 @login_required(login_url='login')
+@user_allowed(allowed_users=['admins'])
 def dashboardView(request) :
     context = {}
     # sorted_orders = Order.objects.all().order_by('customer')
@@ -121,6 +121,7 @@ def dashboardView(request) :
     return render(request, 'accounts\dashboard.html', context)
 
 @login_required(login_url='login')
+@user_allowed(allowed_users=['admins'])
 def productsView(request) :
     context = {}
     products = Product.objects.all()
@@ -131,6 +132,7 @@ def productsView(request) :
     return render(request, 'accounts\products.html', context)
 
 @login_required(login_url='login')
+@user_allowed(allowed_users=['admins'])
 def createProductView(request) :
     context = {}
     createProductForm = ProductForm()
@@ -147,6 +149,7 @@ def createProductView(request) :
     return render(request, 'accounts/form_templates/create_product.html', context)
 
 @login_required(login_url='login')
+@user_allowed(allowed_users=['admins', 'customers'])
 def customerView(request, pk_cust_id) :
     context = {}
     the_customer = Customer.objects.get(id=pk_cust_id)

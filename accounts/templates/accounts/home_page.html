@@ -1,5 +1,8 @@
 {% extends 'accounts/main_template.html' %}
 
-{% block content2 %}
-    <h3>This is the main home page</h3>
+{% block content %}
+    <div style=" text-align: center; font-size: 40px;">
+        <h3>This is the main home page</h3>
+        {{request.user}}
+    </div>
 {% endblock %}
