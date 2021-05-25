@@ -32,14 +32,26 @@ from django.contrib.auth import (
     logout,
 )
 
+from django.contrib.auth.decorators import login_required
+
+from .decorators import (
+    authentication_required,
+)
+
 # Create your views here.
 # def homePageView(request) :
 #     return HttpResponse("<h1>This is the home page</h1>")
 
+@login_required(login_url='login')
 def homePageView(request) :
     context = {}
     return render(request, 'accounts\home_page.html', context)
 
+def userHomePageView(request) :
+    context = {}
+    return render(request, 'accounts\\user_page.html', context)
+
+@authentication_required
 def registerView(request) :
     # register_form = UserCreationForm()
     register_form = RegisterForm()
@@ -60,6 +72,7 @@ def registerView(request) :
     context['register_form'] = register_form
     return render(request, 'accounts/registration/register.html', context)
 
+@authentication_required
 def loginView(request) :
     login_form = LoginForm()
     context = {}
@@ -85,6 +98,7 @@ def logoutView(request) :
     logout(request)
     return redirect('login')
 
+@login_required(login_url='login')
 def dashboardView(request) :
     context = {}
     # sorted_orders = Order.objects.all().order_by('customer')
@@ -106,6 +120,7 @@ def dashboardView(request) :
 
     return render(request, 'accounts\dashboard.html', context)
 
+@login_required(login_url='login')
 def productsView(request) :
     context = {}
     products = Product.objects.all()
@@ -115,6 +130,7 @@ def productsView(request) :
     context['productFilter'] = productFilter
     return render(request, 'accounts\products.html', context)
 
+@login_required(login_url='login')
 def createProductView(request) :
     context = {}
     createProductForm = ProductForm()
@@ -130,6 +146,7 @@ def createProductView(request) :
     context['createProductForm'] = createProductForm
     return render(request, 'accounts/form_templates/create_product.html', context)
 
+@login_required(login_url='login')
 def customerView(request, pk_cust_id) :
     context = {}
     the_customer = Customer.objects.get(id=pk_cust_id)
@@ -149,6 +166,7 @@ def customerView(request, pk_cust_id) :
 
     return render(request, 'accounts\customer.html', context)
 
+@login_required(login_url='login')
 def updateCustomerView(request, pk_cust_id) :
     customer = Customer.objects.get(id=pk_cust_id)
     context = {}
@@ -163,10 +181,12 @@ def updateCustomerView(request, pk_cust_id) :
     context['updateCustomerForm'] = updateCustomerForm
     return render(request, 'accounts/form_templates/update_customer.html', context)
 
+@login_required(login_url='login')
 def statusView(request) :
     context = {}
     return render(request, 'accounts/status.html', context)
 
+@login_required(login_url='login')
 def createOrderView(request, pk_cust_id) :
     Customer_Order_FormSet = inlineformset_factory(
         Customer,   # the parent model
@@ -201,6 +221,7 @@ def createOrderView(request, pk_cust_id) :
     context['createOrderFormSet'] = createOrderFormSet
     return render(request, 'accounts/form_templates/createOrder_form.html', context)
 
+@login_required(login_url='login')
 def createCustomerView(request) :
     context = {}
     createCustomerForm = CustomerForm()
@@ -225,6 +246,7 @@ def createCustomerView(request) :
     context['createCustomerForm'] = createCustomerForm
     return render(request, 'accounts/form_templates/create_customer.html', context)
 
+@login_required(login_url='login')
 def removeCustomerView(request, pk_cust_id) :
     customer = Customer.objects.get(id=pk_cust_id)
     context = {}
@@ -235,6 +257,7 @@ def removeCustomerView(request, pk_cust_id) :
     context['customer'] = customer
     return render(request, 'accounts/form_templates/remove_customer.html', context)
 
+@login_required(login_url='login')
 def removeProductView(request, pk_product_id) :
     product = Product.objects.get(id=pk_product_id)
     context = {}

@@ -13,12 +13,14 @@ from .views import(
     removeProductView,
     registerView,
     loginView,
+    userHomePageView,
 )
 
 urlpatterns = [
     # path('admin/', admin,site.urls),
 
     path('', homePageView, name='home'),
+    path('userHome/', userHomePageView, name='userHome'),
 
     path('register/', registerView, name='register'),
     path('login/', loginView, name='login'),
