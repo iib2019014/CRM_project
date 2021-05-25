@@ -38,16 +38,26 @@ from .decorators import (
     admin_only,
 )
 
+from django.contrib.auth.models import Group
+
 # Create your views here.
 
 @login_required(login_url='login')
 @admin_only
 def homePageView(request) :
     context = {}
+    if request.user.groups.exists() :
+        user_group = request.user.groups.all()[0].name
+        context['user_group'] = user_group
+    print(context)
     return render(request, 'accounts\home_page.html', context)
 
 def userHomePageView(request) :
     context = {}
+    if request.user.groups.exists() :
+        user_group = request.user.groups.all()[0].name
+        context['user_group'] = user_group
+    print(context)
     return render(request, 'accounts\\user_page.html', context)
 
 @authentication_required
@@ -61,7 +71,10 @@ def registerView(request) :
         register_form = UserCreationForm(request.POST)
         if register_form.is_valid() :
             print("valid")
-            register_form.save()
+            user = register_form.save()
+
+            user.groups.add(Group.objects.get(name='customers'))
+            
             messages.success(request, "an account was successfully registered for " + register_form.cleaned_data.get('username'))
             return redirect('home')
         else :

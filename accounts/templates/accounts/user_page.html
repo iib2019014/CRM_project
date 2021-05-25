@@ -4,6 +4,8 @@
 
 {% block content %}
     <div style=" text-align: center; font-size: 40px;">
-        {{request.user}}
+        <h3>This is the customer home page</h3>
+        <p>User : {{request.user}}</p>
+        <p>User Group : {{user_group}}</p>
     </div>
 {% endblock %}
