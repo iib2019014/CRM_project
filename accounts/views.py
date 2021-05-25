@@ -13,6 +13,8 @@ from .forms import(
     CustomerForm,
     ProductForm,
     UserCreationForm,
+    RegisterForm,
+    LoginForm,
 )
 
 from django.forms import inlineformset_factory
@@ -20,6 +22,14 @@ from django.forms import inlineformset_factory
 from .filters import (
     OrderFilter,
     ProductFilter,
+)
+
+from django.contrib import messages
+
+from django.contrib.auth import (
+    authenticate,
+    login,
+    logout,
 )
 
 # Create your views here.
@@ -31,7 +41,8 @@ def homePageView(request) :
     return render(request, 'accounts\home_page.html', context)
 
 def registerView(request) :
-    register_form = UserCreationForm()
+    # register_form = UserCreationForm()
+    register_form = RegisterForm()
     context = {}
 
     if request.method == 'POST' :
@@ -40,6 +51,7 @@ def registerView(request) :
         if register_form.is_valid() :
             print("valid")
             register_form.save()
+            messages.success(request, "an account was successfully registered for " + register_form.cleaned_data.get('username'))
             return redirect('home')
         else :
             print("not valid")
@@ -47,6 +59,31 @@ def registerView(request) :
         print("into get")
     context['register_form'] = register_form
     return render(request, 'accounts/registration/register.html', context)
+
+def loginView(request) :
+    login_form = LoginForm()
+    context = {}
+
+    if request.method == 'POST' :
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        logged_in_user = authenticate(request, username=username, password=password)
+
+        print(logged_in_user)
+
+        if logged_in_user is not None :
+            login(request, logged_in_user)
+            return redirect('home')
+        else :
+            messages.error(request, "invalid credentials")
+
+    context['login_form'] = login_form
+    return render(request, 'accounts/registration/login.html', context)
+
+def logoutView(request) :
+    logout(request)
+    return redirect('login')
 
 def dashboardView(request) :
     context = {}
