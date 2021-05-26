@@ -18,6 +18,7 @@ class CustomerForm(ModelForm) :
     class Meta :
         model = Customer
         fields = '__all__'
+        exclude = ['user']
 
 class ProductForm(ModelForm) :
     class Meta :

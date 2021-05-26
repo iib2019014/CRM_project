@@ -15,6 +15,7 @@ from .views import(
     registerView,
     loginView,
     userHomePageView,
+    accountSettingsView,
 )
 
 urlpatterns = [
@@ -41,4 +42,6 @@ urlpatterns = [
 
     path('removeCustomer/<str:pk_cust_id>/', removeCustomerView, name='removeCustomer'),
     path('removeProduct/<str:pk_product_id>/', removeProductView, name='removeProduct'),
+
+    path('accountSettings/', accountSettingsView, name='accountSettings'),
 ]

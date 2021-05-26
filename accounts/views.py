@@ -302,3 +302,9 @@ def removeProductView(request, pk_product_id) :
         product.delete()
         return redirect('products')
     return render(request, 'accounts/form_templates/remove_product.html', context)
+
+@login_required(login_url='login')
+@user_allowed(allowed_users=['customers'])
+def accountSettingsView(request) :
+    context = {}
+    return render(request, 'accounts/account_settings.html', context)
