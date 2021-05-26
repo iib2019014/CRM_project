@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.deletion import SET_NULL
+from django.contrib.auth.models import User
 
 STATUS = (
     ('pending', 'pending'),
@@ -15,6 +16,8 @@ CATEGORY = (
 
 # Create your models here.
 class Customer(models.Model) :
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+        # using this 'user' field we are building a one to onr relation between user and customer,
     name = models.CharField(max_length=25, null=True)
     phone = models.CharField(max_length=10, null=True)
     email = models.CharField(max_length=25, null=True)
@@ -53,4 +56,4 @@ class Order(models.Model) :
     date_ordered = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self) :
-        return "order [" + self.order_id + "]"
+        return "order [" + str(self.id)+ "]"

@@ -47,16 +47,28 @@ from django.contrib.auth.models import Group
 def homePageView(request) :
     context = {}
     if request.user.groups.exists() :
-        user_group = request.user.groups.all()[0].name
-        context['user_group'] = user_group
+        user_groups = request.user.groups.all()
+        context['user_groups'] = user_groups
+        # print(user_groups)
     print(context)
     return render(request, 'accounts\home_page.html', context)
 
+@login_required(login_url='login')
+@user_allowed(allowed_users=['customers'])
 def userHomePageView(request) :
     context = {}
+    user_customer = request.user.customer
+
+    customer_orders = user_customer.order_set.all()
+    context['total_orders'] = customer_orders.count()
+    context['delivered_orders'] = customer_orders.filter(status="delivered").count()
+    context['pending_orders'] = customer_orders.filter(status="pending").count()
+    
     if request.user.groups.exists() :
         user_group = request.user.groups.all()[0].name
         context['user_group'] = user_group
+    
+    # their_orders = Order.objects.filter(customer.user=request.user)
     print(context)
     return render(request, 'accounts\\user_page.html', context)
 
@@ -126,10 +138,10 @@ def dashboardView(request) :
     context['total_orders'] = total_orders
     
     orders_delivered = orders.filter(status="delivered").count()
-    context['orders_delivered'] = orders_delivered
+    context['delivered_orders'] = orders_delivered
 
     orders_pending = orders.filter(status="pending").count()
-    context['orders_pending'] = orders_pending
+    context['pending_orders'] = orders_pending
 
     return render(request, 'accounts\dashboard.html', context)
 

@@ -3,9 +3,13 @@
 {% load static%}
 
 {% block content %}
+    {%  include 'accounts/status.html' %}
+    
     <div style=" text-align: center; font-size: 40px;">
         <h3>This is the customer home page</h3>
         <p>User : {{request.user}}</p>
-        <p>User Group : {{user_group}}</p>
+        {% for user_group in user_groups %}
+            {{user_group.name}}
+        {% endfor %}
     </div>
 {% endblock %}
