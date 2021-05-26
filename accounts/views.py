@@ -58,8 +58,10 @@ def homePageView(request) :
 def userHomePageView(request) :
     context = {}
     user_customer = request.user.customer
+    context['user_customer'] = user_customer
 
     customer_orders = user_customer.order_set.all()
+    context['customer_orders'] = customer_orders
     context['total_orders'] = customer_orders.count()
     context['delivered_orders'] = customer_orders.filter(status="delivered").count()
     context['pending_orders'] = customer_orders.filter(status="pending").count()
@@ -67,9 +69,6 @@ def userHomePageView(request) :
     if request.user.groups.exists() :
         user_group = request.user.groups.all()[0].name
         context['user_group'] = user_group
-    
-    # their_orders = Order.objects.filter(customer.user=request.user)
-    print(context)
     return render(request, 'accounts\\user_page.html', context)
 
 @authentication_required
@@ -85,7 +84,10 @@ def registerView(request) :
             print("valid")
             user = register_form.save()
 
-            user.groups.add(Group.objects.get(name='customers'))
+            user.groups.add(Group.objects.get(name='customers'))    # add the registered customer to the 'customers' group,
+            Customer.objects.create(
+                user=user,      # whenever a user is registered assign that user a customer profile,
+            )
             
             messages.success(request, "an account was successfully registered for " + register_form.cleaned_data.get('username'))
             return redirect('home')

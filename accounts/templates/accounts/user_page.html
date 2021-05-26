@@ -4,7 +4,42 @@
 
 {% block content %}
     {%  include 'accounts/status.html' %}
-    
+    <div class="row" style="padding: 10px;">
+        <div class="col-md-4">
+            <div class="card card-body">
+                <h5>Contact Information</h5>
+                <hr>
+                <p>Email: {{user_customer.email}}</p>
+                <p>Name: {{user_customer.name}}</p>
+                <p>Phone: {{user_customer.phone}}</p> </p>
+            </div>
+        </div>
+        
+        <div class="card card-body">
+            <table class="table table-sm">
+                <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Date Orderd</th>
+                    <th>Status</th>
+                    <th>Update</th>
+                    <th>Remove</th>
+                </tr>
+
+                {% for order in customer_orders %}
+                    <tr>
+                        <td>{{order.product}}</td>
+                        <td>{{order.product.category}}</td>
+                        <td>{{order.date_ordered}}</td>
+                        <td>{{order.status}}</td>
+                        <td><a class="btn btn-sm btn-info" href="#">update</a></td>
+                        <td><a class="btn btn-sm btn-danger" href="#">remove</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
     <div style=" text-align: center; font-size: 40px;">
         <h3>This is the customer home page</h3>
         <p>User : {{request.user}}</p>
