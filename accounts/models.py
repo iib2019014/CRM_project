@@ -25,14 +25,14 @@ class Customer(models.Model) :
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self) :
-        return self.name
+        return str(self.name)
 
 class Tag(models.Model) :
     name = models.CharField(max_length=25, null=True)
     # id = models.CharField(max_length=25, primary_key=True)
 
     def __str__(self) :
-        return self.name
+        return str(self.name)
 
 class Product(models.Model) :
     name = models.CharField(max_length=25, null=True)
@@ -45,7 +45,7 @@ class Product(models.Model) :
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self) :
-        return self.name
+        return str(self.name)
     
 class Order(models.Model) :
     # order_id = models.CharField(max_length=25, primary_key=True)
