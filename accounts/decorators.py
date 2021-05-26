@@ -17,14 +17,14 @@ def user_allowed(allowed_users=[]) :
             
             if request.user.groups.exists() :
                 print("exists")
-                user_group = request.user.groups.all()[0].name
-
-            if user_group in allowed_users :
-                return view_func(request, *args, **kwargs)
-            else :
-                print("user : " + str(request.user))
+                user_groups = request.user.groups.all()
+                
+            for user_group in user_groups :
                 print("user_group : " + str(user_group))
-                return HttpResponse("unauthorized access")
+                if user_group.name in allowed_users :
+                    return view_func(request, *args, **kwargs)
+
+            return HttpResponse("unauthorized access")
         return wrapper_func
     return decorator
 
