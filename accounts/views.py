@@ -83,17 +83,10 @@ def registerView(request) :
         if register_form.is_valid() :
             print("valid")
             user = register_form.save()
-
-            user.groups.add(Group.objects.get(name='customers'))    # add the registered customer to the 'customers' group,
-            new_customer = Customer.objects.create(
-                user=user,      # whenever a user is registered assign that user a customer profile,
-                name = request.POST.get('username'),
-                email = request.POST.get('email'),
-            )
-
-            print(new_customer)
-            # print("user.customer : " + user.customer)
             
+            # after this save() runs, the create_customer_profile signal is triggered
+            
+            print("after create_customer_profile signal")
             messages.success(request, "an account was successfully registered for " + register_form.cleaned_data.get('username'))
             return redirect('home')
         else :
