@@ -307,4 +307,13 @@ def removeProductView(request, pk_product_id) :
 @user_allowed(allowed_users=['customers'])
 def accountSettingsView(request) :
     context = {}
+    user_customer = request.user.customer
+    customerUpdateForm = CustomerForm(instance=user_customer)
+
+    if request.method == 'POST' :
+        customerUpdateForm = CustomerForm(request.POST, request.FILES, instance=user_customer)
+        customerUpdateForm.save()
+        
+
+    context['customerUpdateForm'] = customerUpdateForm
     return render(request, 'accounts/account_settings.html', context)

@@ -7,7 +7,7 @@
 		max-width: 200px;
 		max-height:200px;
 		margin: 0 auto;
-		border-radius: 50%;
+		border-radius: 20%;
 	}
 </style>
 
@@ -33,7 +33,7 @@
 			
 			<form method="POST" action="" enctype="multipart/form-data">
 				{% csrf_token %}
-				{{form.as_p}}
+				{{customerUpdateForm.as_p}}
 		
 			<input class="btn btn-primary" type="submit" name="Update Information">
 			</form>
