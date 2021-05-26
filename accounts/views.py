@@ -310,9 +310,19 @@ def accountSettingsView(request) :
     user_customer = request.user.customer
     customerUpdateForm = CustomerForm(instance=user_customer)
 
+    # print("username : " + request.user.username)
+    # print("cust name : " + user_customer.name)
+    # print("user email : " + request.user.email)
+    # print("cust email : " + user_customer.email)
+
     if request.method == 'POST' :
         customerUpdateForm = CustomerForm(request.POST, request.FILES, instance=user_customer)
         customerUpdateForm.save()
+    
+    # print("username : " + request.user.username)
+    # print("cust name : " + user_customer.name)
+    # print("user email : " + request.user.email)
+    # print("cust email : " + user_customer.email)
         
 
     context['customerUpdateForm'] = customerUpdateForm
