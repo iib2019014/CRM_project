@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+# from django.db.backends.postgresql
 
 import os
 
@@ -82,9 +83,15 @@ WSGI_APPLICATION = 'crm1.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': str(BASE_DIR / 'db.sqlite3'),
-        'NAME': os.path.join(BASE_DIR / 'db.sqlite3'),
+        # 'NAME': os.path.join(BASE_DIR / 'db.sqlite3'),
+        'NAME': 'crm_database',
+        'USER': 'postgres',     # if server is created with default fields then username would be postgres,
+        'PASSWORD': 'ManvithDa',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
