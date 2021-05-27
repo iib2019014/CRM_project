@@ -26,9 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(3c3uei%@u*^p_@#7h9$8yuazgc2+(le10&18yv9^fug&jh5x8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = False   # comment this when not running on heroku server (for production)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['project-django-crm.herokuapp.com', '127.0.0.1']
+        # if u don't add the local server in ALLOWED_HOSTS the project will not run at http://127.0.0.1:8000/
+        # for adding local host u must add only '127.0.0.1' rather than '127.0.0.1:8000'
 
 
 # Application definition
@@ -81,17 +84,22 @@ WSGI_APPLICATION = 'crm1.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'crm_database',
+#         'USER': 'postgres',     # if server is created with default fields then username would be postgres,
+#         'PASSWORD': 'ManvithDa',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
+DATABASES =  {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': str(BASE_DIR / 'db.sqlite3'),
-        # 'NAME': os.path.join(BASE_DIR / 'db.sqlite3'),
-        'NAME': 'crm_database',
-        'USER': 'postgres',     # if server is created with default fields then username would be postgres,
-        'PASSWORD': 'ManvithDa',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.path.join(BASE_DIR / 'db.sqlite3'),
     }
 }
 
