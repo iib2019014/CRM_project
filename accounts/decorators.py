@@ -19,10 +19,10 @@ def user_allowed(allowed_users=[]) :
                 print("exists")
                 user_groups = request.user.groups.all()
                 
-            for user_group in user_groups :
-                print("user_group : " + str(user_group))
-                if user_group.name in allowed_users :
-                    return view_func(request, *args, **kwargs)
+                for user_group in user_groups :
+                    print("user_group : " + str(user_group))
+                    if user_group.name in allowed_users :
+                        return view_func(request, *args, **kwargs)
 
             return HttpResponse("unauthorized access")
         return wrapper_func
