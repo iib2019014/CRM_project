@@ -10,9 +10,12 @@ from django.contrib.auth.models import User, Group
 def create_customer_profile(sender, instance, created, **kwargs) :
     print("create_customer_profile with created : %s" % created)
     if created :
-        instance.groups.add(Group.objects.get(name='customers'))
-
-        print("added " + str(instance) + " to " + str(instance.groups.all()))
+        try :
+            user_group = Group.objects.get(name='customers')
+            instance.groups.add(user_group)
+            print("added " + str(instance) + " to " + str(instance.groups.all()))
+        except Group.DoesNotExist :
+              pass  
 
 
         new_customer = Customer.objects.create(
