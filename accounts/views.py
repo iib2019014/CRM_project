@@ -69,7 +69,7 @@ def userHomePageView(request) :
     if request.user.groups.exists() :
         user_group = request.user.groups.all()[0].name
         context['user_group'] = user_group
-    return render(request, 'accounts\\user_page.html', context)
+    return render(request, 'accounts/user_page.html', context)
 
 @authentication_required
 def registerView(request) :
