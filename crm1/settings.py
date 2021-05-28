@@ -26,8 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(3c3uei%@u*^p_@#7h9$8yuazgc2+(le10&18yv9^fug&jh5x8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False   # comment this when not running on heroku server (for production)
+DEBUG = True
+# DEBUG = False   # comment this when not running on heroku server (for production)
 
 ALLOWED_HOSTS = ['project-django-crm.herokuapp.com', '127.0.0.1']
         # if u don't add the local server in ALLOWED_HOSTS the project will not run at http://127.0.0.1:8000/
