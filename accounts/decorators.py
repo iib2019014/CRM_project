@@ -13,7 +13,7 @@ def user_allowed(allowed_users=[]) :
     # print("allowed_users : " + str(allowed_users))
     def decorator(view_func) :
         def wrapper_func(request, *args, **kwargs) :
-            user_group = None
+            user_groups = None
             
             if request.user.groups.exists() :
                 print("exists")
