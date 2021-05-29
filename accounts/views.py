@@ -51,7 +51,7 @@ def homePageView(request) :
         context['user_groups'] = user_groups
         # print(user_groups)
     print(context)
-    return render(request, 'accounts\home_page.html', context)
+    return render(request, 'accounts/home_page.html', context)
 
 @login_required(login_url='login')
 @user_allowed(allowed_users=['customers'])
