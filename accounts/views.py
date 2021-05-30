@@ -143,7 +143,7 @@ def dashboardView(request) :
     orders_pending = orders.filter(status="pending").count()
     context['pending_orders'] = orders_pending
 
-    return render(request, 'accounts\dashboard.html', context)
+    return render(request, 'accounts/dashboard.html', context)
 
 @login_required(login_url='login')
 @user_allowed(allowed_users=['admins'])
@@ -154,7 +154,7 @@ def productsView(request) :
     products = productFilter.qs
     context['products'] = products
     context['productFilter'] = productFilter
-    return render(request, 'accounts\products.html', context)
+    return render(request, 'accounts/products.html', context)
 
 @login_required(login_url='login')
 @user_allowed(allowed_users=['admins'])
@@ -192,7 +192,7 @@ def customerView(request, pk_cust_id) :
     their_orders_or_filtered = customerOrderFilter.qs
     context['their_orders_or_filtered'] = their_orders_or_filtered
 
-    return render(request, 'accounts\customer.html', context)
+    return render(request, 'accounts/customer.html', context)
 
 @login_required(login_url='login')
 def updateCustomerView(request, pk_cust_id) :
